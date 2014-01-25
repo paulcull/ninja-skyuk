@@ -1,4 +1,4 @@
-ninja-logitechmediaserver
+ninja-skyuk
 =========================
 
 Author: Paul Cullender
@@ -8,14 +8,13 @@ License: BSD
 
 
 ###Overview
-Ninja Blocks Module for the Logitech Media Server / Squeezebox server. 
-This version shows the names and what the status of the LMS Players are.
+Ninja Blocks Module for a sky tv box. 
+This version shows the names and what the status of the sky.
 
 
 ###Features
-1. Detects each Squeeze player attached to the server
+1. Detects each sky box on the network
 2. Shows the status of each play
-3. Displays the volume level for each one.
 
 ###Wiki Entry
 [TBD]
@@ -29,20 +28,20 @@ This version shows the names and what the status of the LMS Players are.
 
 Install this Driver with:
 
-ninja_install -g git@github.com:paulcull/ninja-logitechmediaserver.git (Requires ninja toolbelt)
+ninja_install -g git@github.com:paulcull/ninja-skyuk.git (Requires ninja toolbelt)
 
 ####Manual Installation
 
 1. cd into your drivers directory (/opt/ninja/drivers on your Ninja Block)
-2. git clone git://github.com/paulcull/ninja-logitechmediaserver.git
-3. cd ninja-logitechmediaserver && npm install
+2. git clone git://github.com/paulcull/ninja-skyuk.git
+3. cd ninja-skyuk && npm install
 
 ###History
 
 v0.0.1
 ======
 
-Drivers cannot (yet) set the device name when registering, so the nickname is only used in the guid. @dan has promised to see if he can make it happen "soon" though =)
+Outline and shell
 
 Give it a go, tell me if works for you and I'll get onto writing the part to actuate the players.
 
@@ -53,7 +52,7 @@ Community
 ###Borrowing from...
 
 This borrows alot from the ninjablock XMBC module found here: https://github.com/elliots/ninja-xbmc
-The squeezebox communication is using the good work from here https://github.com/mozz100/node-logitechmediaserver
+The skyplus communication is using the good work from here https://github.com/mwrf/skyplus.js
 
 
 ###Contributions to...
