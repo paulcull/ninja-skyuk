@@ -1,0 +1,28 @@
+{
+  "name": "ninja-skyuk",
+  "version": "0.0.1",
+  "description": "Ninja Blocks module for interacting with UK Sky TV PVR",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:paulcull/ninja-skyuk.git"
+  },
+  "keywords": [
+    "Sky",
+    "TV",
+    "Ninja",
+    "Blocks"
+  ],
+  "author": "Paul Cullender",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "skyplus": "https://github.com/mwrf/skyplus.js"
+  },  
+  "config":{
+    "sockets":[]
+  }
+}
