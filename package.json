@@ -22,10 +22,7 @@
   "dependencies": {
     "skyplus.js": "git+ssh://git@github.com/paulcull/skyplus.js.git",
     "sky-plus-hd": "~0.0.4"
-  },
-  "dependencies": {
-    "q": "~1.0.0"
-  },    
+  },  
   "config":{
     "sockets":[]
   }

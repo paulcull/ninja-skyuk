@@ -22,22 +22,28 @@ var d = new (require('./index'))(opts, {
 });
 
 d.save = function() {
-    console.log('Driver.save', opts);
+    console.log('NB:::::::Driver.save', opts);
 };
 
 d.on('register', function(value) {
-    console.log('Driver.register');
+    console.log('NB:::::::Driver.register');
 
-    //console.log('Registered device : ', value.name);
+    console.log('NB:::::::Registered device : ', value.name);
     var device = value;
 
     device.on('data', function(data) {
-        console.log('Device "' + device.name + '" emitted data - ' + data);
+        if (typeof(data) === 'object') {
+            var _data = JSON.stringify(data);
+        } else {
+            var _data = data;
+        }
+        console.log('NB:::::::Device "' + device.name + '" emitted data');
+        console.log('NB:::::::Device "' + device.name + '" emitted data - ' + _data);
         console.log(JSON.stringify(data));
    });
 
     device.on('wrote', function(data) {
-        //console.log('Device "' + device.name + '" wrote data - ' + data);
+        console.log('NB:::::::Device "' + device.name + '" wrote data - ' + data);
    });
 
     setTimeout(function() {
