@@ -20,7 +20,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "skyplus.js": "git+ssh://git@github.com/dalhundal/sky-plus-hd.git#master-jan2014"
+    "skyplus.js": "git://github.com/lgladdy/sky-plus-hd.git"
   },  
   "config":{
     "sockets":[]
