@@ -1,6 +1,6 @@
 {
   "name": "ninja-skyuk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Ninja Blocks module for interacting with UK Sky TV PVR",
   "main": "index.js",
   "scripts": {

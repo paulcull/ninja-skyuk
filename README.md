@@ -2,26 +2,30 @@ ninja-skyuk
 =========================
 
 Author: Paul Cullender
-Version: 1.0
-Status: alpha
+Version: 0.0.2
+Status: beta
 License: BSD
 
 
 ###Overview
 Ninja Blocks Module for a sky tv box. 
-This version shows the names and what the status of the sky.
+This version shows the names and what the status of the skybox as well as basic control.
 
 
 ###Features
-1. Detects each sky box on the network
-2. Shows the status of each play
+1. Detects the sky box on the network
+2. Shows the status of sky box
+3. Shows the channel that is showing or the programme name that is playing if recorded
+4. Allows Pausing, Resuming, Fast Forward (x12) and Rewind (x12)
+5. Channel up and down
+
 
 ###Wiki Entry
 [TBD]
 
 
 ###Forum Post
-[TBD]
+http://forums.ninjablocks.com/index.php?p=/discussion/2733/uk-sky-hd-box-driver
 
 
 ###Installation
@@ -38,6 +42,15 @@ ninja_install -g git@github.com:paulcull/ninja-skyuk.git (Requires ninja toolbel
 
 ###History
 
+v0.0.2
+======
+
+Changed the sky interaction to use the excellent sky-plus-hd instead
+Added interactive support with the driver
+Got the channel pictures working
+TODO: see if I can get the programme name on the channel
+
+
 v0.0.1
 ======
 
@@ -52,7 +65,7 @@ Community
 ###Borrowing from...
 
 This borrows alot from the ninjablock XMBC module found here: https://github.com/elliots/ninja-xbmc
-The skyplus communication is using the good work from here https://github.com/mwrf/skyplus.js
+The skyplus communication is using the good work from here https://github.com/dalhundal/sky-plus-hd
 
 
 ###Contributions to...
