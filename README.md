@@ -20,6 +20,9 @@ This version shows the names and what the status of the skybox as well as basic 
 5. Channel up and down
 
 
+###New Dashboard Widget
+https://gist.github.com/paulcull/e41250e68a6146d32052
+
 ###Wiki Entry
 [TBD]
 
