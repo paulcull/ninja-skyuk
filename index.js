@@ -13,7 +13,7 @@ var skyDevice = require('./lib/device');
 // If Elliot says it horrid then it is
 
 // var log = console.log;
-var skyip = '192.168.1.43';
+//var skyip = '192.168.1.43';
 //var skyname = 'HOME';
 
 util.inherits(driver,stream);
@@ -39,10 +39,7 @@ function driver(opts, app) {
       opts.skyip = skyip;
       self.save(); 
     }
-
     self.scan(opts,app);
-
-
   });
   //
 }
@@ -50,22 +47,14 @@ function driver(opts, app) {
 driver.prototype.scan = function(opts, app) {
 
   var self = this;
-	console.log('going to find skyHD');
-	var skyFinder = new SkyPlusHD().find(opts.skyip);
+  app.log.debug('(Sky Plus HD UK) : going to find skyHD');
+	var skyFinder = new SkyPlusHD().find();
 
 	skyFinder.then(function(skyBox) {
-	  console.log("READY: "+skyBox.description);
-	  //self.add(opts,skyBox);
-
-
-	  console.log('before _skyDevice');
+    opts.skyip = skyBox.options.ip;
 
 	  var _skyDevice = new skyDevice(opts, self._app, skyBox, self);
-	  // console.log(' ***** got _skyDevice');
-	  // console.log(JSON.stringify(_skyDevice));
 	  self._devices.push(_skyDevice);
-	  // console.log('these are the devices');
-	  // console.log(JSON.stringify(_skyDevice.devices));
 
 	  Object.keys(_skyDevice.devices).forEach(function(id) {
 	    self._app.log.debug('(Sky Plus HD UK) : Adding sub-device', id, _skyDevice.devices[id].G);
@@ -73,17 +62,15 @@ driver.prototype.scan = function(opts, app) {
 	    _skyDevice.devices[id].emit('data','');
 	  });
 
-	  console.log("Reading planner...");
+    app.log.debug('(Sky Plus HD UK) : Reading planner...');
 	  skyBox.planner.getPlannerItems().then(function(items) {
-	    console.log('Planner contains '+items.length + ' items');
+      app.log.debug('(Sky Plus HD UK) : Planner contains '+items.length + ' items');
 	  });
-
-	  //}).done();
 
 	});
 
 	skyFinder.fail(function(err) {
-	   console.log("Failed to find skybox, "+err);
+    app.log.debug('(Sky Plus HD UK) : Failed to find skybox, '+err);
 	});
 
 
@@ -97,8 +84,7 @@ driver.prototype.config = function(rpc,cb) {
   // If its to rescan - just do it straight away
   // Otherwise, we will try action the rpc method
   if (!rpc) {
-    //return configHandlers.menu.call(this,this._opts.skyip,this._opts.skyname,this._opts.remote_url,this._opts.enabled,cb);
-    return configHandlers.menu.call(this,cb);
+    return configHandlers.menu.call(this,this._opts.skyip,cb);
   }
   else if (rpc.method === 'scan') {
     self._app.log.debug('(Sky Plus HD UK) : about to re-scan');
