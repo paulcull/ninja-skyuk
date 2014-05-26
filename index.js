@@ -3,6 +3,7 @@ var SkyPlusHD = require('sky-plus-hd'),
     util = require('util'),
     stream = require('stream'),
     http = require('http'),
+    q = require('q'),
     https = require('https');
 var configHandlers = require('./lib/config-handlers');
 var messages = require('./lib/config-messages');
@@ -21,7 +22,7 @@ util.inherits(skyDevice,stream);
 
 
 function driver(opts, app) {
-
+  'use strict';
   this._app = app;
   this._opts = opts;
 
@@ -35,56 +36,76 @@ function driver(opts, app) {
       opts.hasSentAnnouncement = true;
       self.save();
     }
-    if (!opts.skyip) {
-      opts.skyip = skyip;
-      self.save(); 
-    }
-    self.scan(opts,app);
-  });
-  //
-}
+    self.startScan(opts,app);
+});
+
+driver.prototype.startScan  = function(opts,app) {
+  var deferred  =  q.defer();
+  q.all([self.scan(opts,app)
+    ]).then(function(foundIt) {
+        //console.log(foundIt);
+        app.log.debug('(Sky Plus HD UK) : found skyHD at %s',foundIt[0].options.ip);
+        opts.config.skyip = foundIt[0].options.ip;
+    }).fail(function(err) {
+        app.log.debug('(Sky Plus HD UK) : could not find skyHD...waiting to try again');
+        setTimeout(self.startScan(opts,app), 10000);
+    });
+};
 
 driver.prototype.scan = function(opts, app) {
 
   var self = this;
+  var deferred  =  q.defer();
+
   app.log.debug('(Sky Plus HD UK) : going to find skyHD');
-	var skyFinder = new SkyPlusHD().find();
 
-	skyFinder.then(function(skyBox) {
-    opts.skyip = skyBox.options.ip;
+    var skyFinder = new SkyPlusHD().find(opts);
 
-	  var _skyDevice = new skyDevice(opts, self._app, skyBox, self);
-	  self._devices.push(_skyDevice);
+  	skyFinder.then(function(skyBox) {
+      opts.config.skyip = skyBox.options.ip;
 
-	  Object.keys(_skyDevice.devices).forEach(function(id) {
-	    self._app.log.debug('(Sky Plus HD UK) : Adding sub-device', id, _skyDevice.devices[id].G);
-	    self.emit('register', _skyDevice.devices[id]);
-	    _skyDevice.devices[id].emit('data','');
-	  });
+  	  var _skyDevice = new skyDevice(opts, self._app, skyBox, self);
+  	  self._devices.push(_skyDevice);
 
-    app.log.debug('(Sky Plus HD UK) : Reading planner...');
-	  skyBox.planner.getPlannerItems().then(function(items) {
-      app.log.debug('(Sky Plus HD UK) : Planner contains '+items.length + ' items');
-	  });
+  	  Object.keys(_skyDevice.devices).forEach(function(id) {
+  	    self._app.log.debug('(Sky Plus HD UK) : Adding sub-device', id, _skyDevice.devices[id].G);
+  	    self.emit('register', _skyDevice.devices[id]);
+  	    _skyDevice.devices[id].emit('data','');
+  	  });
 
-	});
+      //console.log('*&***** about to return: %s',skyBox);
+      deferred.resolve(skyBox);
+      //return true;
 
-	skyFinder.fail(function(err) {
-    app.log.debug('(Sky Plus HD UK) : Failed to find skybox, '+err);
-	});
+      app.log.debug('(Sky Plus HD UK) : Reading planner...');
+      skyBox.planner.getPlannerItems().then(function(items) {
+        app.log.debug('(Sky Plus HD UK) : Planner contains '+items.length + ' items');
+      });
 
+  	});
+
+    skyFinder.fail(function(err) {
+      app.log.debug('(Sky Plus HD UK) : Failed to find skybox, '+err);
+      skyFinder = null;
+      deferred.reject(err);
+      //return false;
+    });
+
+    return deferred.promise;
 
 };
 
-driver.prototype.config = function(rpc,cb) {
+}
 
+driver.prototype.config = function(rpc,cb) {
+  'use strict';
   var self = this;
   // If rpc is null, we should send the user a menu of what he/she
   // can do.
   // If its to rescan - just do it straight away
   // Otherwise, we will try action the rpc method
   if (!rpc) {
-    return configHandlers.menu.call(this,this._opts.skyip,cb);
+    return configHandlers.menu.call(this,this._opts.config.skyip,cb);
   }
   else if (rpc.method === 'scan') {
     self._app.log.debug('(Sky Plus HD UK) : about to re-scan');
