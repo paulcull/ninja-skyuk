@@ -21,7 +21,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "q": "~1.0.0",
-    "skyplus.js": "git://github.com/paulcull/sky-plus-hd.git"
+    "sky-plus-hd": "git://github.com/paulcull/sky-plus-hd.git"
   },  
   "config":{
     "sockets":[]
