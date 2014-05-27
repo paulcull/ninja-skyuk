@@ -44,10 +44,10 @@ driver.prototype.startScan  = function(opts,app) {
   q.all([self.scan(opts,app)
     ]).then(function(foundIt) {
         //console.log(foundIt);
-        app.log.debug('(Sky Plus HD UK) : found skyHD at %s',foundIt[0].options.ip);
+        app.log.info('(Sky Plus HD UK) : found skyHD at %s',foundIt[0].options.ip);
         opts.config.skyip = foundIt[0].options.ip;
     }).fail(function(err) {
-        app.log.debug('(Sky Plus HD UK) : could not find skyHD...waiting to try again');
+        app.log.info('(Sky Plus HD UK) : could not find skyHD...waiting to try again');
         setTimeout(self.startScan(opts,app), 10000);
     });
 };
@@ -79,7 +79,7 @@ driver.prototype.scan = function(opts, app) {
 
       app.log.debug('(Sky Plus HD UK) : Reading planner...');
       skyBox.planner.getPlannerItems().then(function(items) {
-        app.log.debug('(Sky Plus HD UK) : Planner contains '+items.length + ' items');
+        app.log.info('(Sky Plus HD UK) : Planner contains '+items.length + ' items');
       });
 
   	});
