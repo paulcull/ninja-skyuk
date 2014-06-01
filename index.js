@@ -31,6 +31,11 @@ function driver(opts, app) {
 
   app.once('client::up',function(){
 
+    if (opts.skyip) {
+      opts.config.skyip = opts.skyip;
+      self.save();
+    }
+
     if (!opts.hasSentAnnouncement) {
       self.emit('announcement',messages.hello);
       opts.hasSentAnnouncement = true;
