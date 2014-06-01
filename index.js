@@ -31,11 +31,6 @@ function driver(opts, app) {
 
   app.once('client::up',function(){
 
-    if (opts.skyip) {
-      opts.config.skyip = opts.skyip;
-      self.save();
-    }
-
     if (!opts.hasSentAnnouncement) {
       self.emit('announcement',messages.hello);
       opts.hasSentAnnouncement = true;
@@ -50,7 +45,7 @@ driver.prototype.startScan  = function(opts,app) {
     ]).then(function(foundIt) {
         //console.log(foundIt);
         app.log.info('(Sky Plus HD UK) : found skyHD at %s',foundIt[0].options.ip);
-        opts.config.skyip = foundIt[0].options.ip;
+        opts.skyip = foundIt[0].options.ip;
     }).fail(function(err) {
         app.log.info('(Sky Plus HD UK) : could not find skyHD...waiting to try again');
         setTimeout(self.startScan(opts,app), 10000);
@@ -67,7 +62,7 @@ driver.prototype.scan = function(opts, app) {
     var skyFinder = new SkyPlusHD().find(opts);
 
   	skyFinder.then(function(skyBox) {
-      opts.config.skyip = skyBox.options.ip;
+      opts.skyip = skyBox.options.ip;
 
   	  var _skyDevice = new skyDevice(opts, self._app, skyBox, self);
   	  self._devices.push(_skyDevice);
@@ -110,7 +105,7 @@ driver.prototype.config = function(rpc,cb) {
   // If its to rescan - just do it straight away
   // Otherwise, we will try action the rpc method
   if (!rpc) {
-    return configHandlers.menu.call(this,this._opts.config.skyip,cb);
+    return configHandlers.menu.call(this,this._opts.skyip,cb);
   }
   else if (rpc.method === 'scan') {
     self._app.log.debug('(Sky Plus HD UK) : about to re-scan');
