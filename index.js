@@ -20,7 +20,7 @@ var skyDevice = require('./lib/device');
 util.inherits(driver,stream);
 util.inherits(skyDevice,stream);
 
-
+ 
 function driver(opts, app) {
   'use strict';
   this._app = app;
