@@ -20,7 +20,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "q": "~1.0.0",
+    "q": "~1.4.1",
     "sky-plus-hd": "git://github.com/paulcull/sky-plus-hd.git"
   },  
   "config":{
