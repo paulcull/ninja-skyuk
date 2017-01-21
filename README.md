@@ -1,6 +1,8 @@
 ninja-skyuk
 =========================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/paulcull/ninja-skyuk.svg)](https://greenkeeper.io/)
+
 Author: Paul Cullender
 Version: 0.0.2
 Status: beta
